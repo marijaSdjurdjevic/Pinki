@@ -16,6 +16,12 @@ public class Snimanje {
 		this.osnovnaSredstva = osnovnaSredstva;
 		this.urednik = urednik;
 	}
+	
+	@Override
+	public String toString() {
+		return "Snimanje [datum=" + datum + "]";
+	}
+
 	public Date getDatum() {
 		return datum;
 	}
