@@ -17,6 +17,12 @@ public class AdministracijaEmisija implements Serializable{
 		this.opis = opis;
 		this.tip = tip;
 	}
+	
+
+	public int getId() {
+		return id;
+	}
+
 
 	public String getNaziv() {
 		return naziv;
