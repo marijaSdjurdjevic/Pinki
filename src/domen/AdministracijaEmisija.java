@@ -38,7 +38,7 @@ public class AdministracijaEmisija implements Serializable{
 		return tip;
 	}
 
-	public void setTip(Enum tip) {
+	public void setTip(EnumTipSnimanja tip) {
 		this.tip = tip;
 	}
 
