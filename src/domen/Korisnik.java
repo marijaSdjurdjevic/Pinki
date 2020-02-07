@@ -2,12 +2,31 @@ package domen;
 
 public class Korisnik {
 	
+	private static int counter = 0;
+	private int id;
 	private String ime;
 	private String prezime;
 	private String korisnickoIme;
 	private String sifra;
 	private Uloga uloga;
 	
+	public Korisnik(String ime, String prezime, String korisnickoIme, String sifra, Uloga uloga) {
+		super();
+		counter++;
+		this.id = counter;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.korisnickoIme = korisnickoIme;
+		this.sifra = sifra;
+		this.uloga = uloga;
+	}
+		
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public Uloga getUloga() {
 		return uloga;
 	}
@@ -38,15 +57,7 @@ public class Korisnik {
 	public void setSifra(String sifra) {
 		this.sifra = sifra;
 	}
-	public Korisnik(String ime, String prezime, String korisnickoIme, String sifra, Uloga uloga) {
-		super();
-		this.ime = ime;
-		this.prezime = prezime;
-		this.korisnickoIme = korisnickoIme;
-		this.sifra = sifra;
-		this.uloga = uloga;
-	}
-	
+		
 	@Override
 	public String toString() {
 		return "Korisnik: " + ime + prezime + ", korisnickoIme=" + korisnickoIme + " , sifra=" + sifra
