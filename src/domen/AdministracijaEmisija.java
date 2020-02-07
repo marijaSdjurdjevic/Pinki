@@ -1,6 +1,6 @@
 package domen;
-
 import java.io.Serializable;
+import enums.EnumTipSnimanja;
 
 public class AdministracijaEmisija implements Serializable{
 
@@ -8,9 +8,9 @@ public class AdministracijaEmisija implements Serializable{
 	private int id;
 	private String naziv;
 	private String opis;
-	private Enum tip;
+	private EnumTipSnimanja tip;
 	
-	public AdministracijaEmisija(String naziv, String opis, Enum tip) {
+	public AdministracijaEmisija(String naziv, String opis, EnumTipSnimanja tip) {
 		super();
 		this.id = ++counter;
 		this.naziv = naziv;
