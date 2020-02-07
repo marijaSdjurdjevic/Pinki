@@ -2,7 +2,7 @@ package domen;
 import java.io.Serializable;
 import enums.EnumTipSnimanja;
 
-public class AdministracijaEmisija implements Serializable{
+public class Emisija implements Serializable{
 
 	private static int counter = 0;
 	private int id;
@@ -10,7 +10,7 @@ public class AdministracijaEmisija implements Serializable{
 	private String opis;
 	private EnumTipSnimanja tip;
 	
-	public AdministracijaEmisija(String naziv, String opis, EnumTipSnimanja tip) {
+	public Emisija(String naziv, String opis, EnumTipSnimanja tip) {
 		super();
 		this.id = ++counter;
 		this.naziv = naziv;
