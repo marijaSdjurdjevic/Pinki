@@ -1,8 +1,9 @@
 package domen;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Snimanje {
+public class Snimanje implements Serializable {
 
 	private final Date datum;
 	private final Emisija emisija;
