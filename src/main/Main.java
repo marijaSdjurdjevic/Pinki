@@ -7,4 +7,7 @@ public class Main {
 
 	}
 
+	public void asfa() {
+		System.out.println();
+	}
 }
