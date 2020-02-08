@@ -5,8 +5,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-public class osnovnoSredstvo implements Serializable{
-	private static int id = 0;
+public class OsnovnoSredstvo implements Serializable{
+	private static int broj = 0;
+	private int id;
 	private String invBroj;
 	private final String naziv;
 	private final String opis;
@@ -16,7 +17,7 @@ public class osnovnoSredstvo implements Serializable{
 	
 	private static final Set<String> invBrojevi = new HashSet<String>();
 	
-	public boolean unesiInvBroj(String invBroj) {
+	public boolean proveriInvBroj(String invBroj) {
 		if(invBrojevi.stream().anyMatch((ib) -> ib.equals(invBroj))){
 			System.out.println("Inventarni broj postoji!");
 			return false;
@@ -24,7 +25,7 @@ public class osnovnoSredstvo implements Serializable{
 		return true;
 	}
 
-	public osnovnoSredstvo(String invBroj, String naziv, String opis, Tip tip, LocalDate datumNabake) {
+	public OsnovnoSredstvo(String invBroj, String naziv, String opis, Tip tip, LocalDate datumNabake) {
 		this.invBroj = invBroj;
 		invBrojevi.add(invBroj);
 		
@@ -32,11 +33,11 @@ public class osnovnoSredstvo implements Serializable{
 		this.opis = opis;
 		this.tip = tip;
 		this.datumNabake = datumNabake;
-		this.id = ++id;
+		this.id = ++broj;
 		this.status = Status.Aktivno;
 	}
 
-	public static int getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -70,6 +71,21 @@ public class osnovnoSredstvo implements Serializable{
 
 	public static Set<String> getInvbrojevi() {
 		return invBrojevi;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof OsnovnoSredstvo) {
+			OsnovnoSredstvo os = (OsnovnoSredstvo)obj;
+			return Integer.compare(os.getId(), getId()) == 0 && os.invBroj.equalsIgnoreCase(invBroj);
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "OsnovnoSredstvo[" + id + "] [invBroj=" + invBroj + ", naziv=" + naziv + ", \nopis=" + opis + ", \ntip=" + tip
+				+ ", datumNabake=" + datumNabake + ", status=" + status + "]";
 	}
 	
 	
