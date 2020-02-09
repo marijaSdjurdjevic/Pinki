@@ -5,7 +5,6 @@ import java.util.TimerTask;
 
 import daoImpl.DaoOsnovnoSredstvo;
 
-
 public class TimerUpis {
 
 	public static void timerZaUpis(Object obj) {
@@ -15,8 +14,8 @@ public class TimerUpis {
 			@Override
 			public void run() { // Function runs every MINUTES minutes.
 				try {
-					if(obj instanceof DaoOsnovnoSredstvo)
-						((DaoOsnovnoSredstvo)obj).saveAll();
+					if (obj instanceof DaoOsnovnoSredstvo)
+						((DaoOsnovnoSredstvo) obj).saveAll();
 //					else if(obj instanceof DaoAdministracijaEmisija)
 //						((DaoAdministracijaEmisija)obj).saveAll();
 //					else if(obj instanceof DaoKorisnik)
@@ -33,5 +32,5 @@ public class TimerUpis {
 		}, 0, 1000 * 60 * MINUTES);
 		// 1000 milliseconds in a second * 60 per minute * the MINUTES variable.
 	}
-	
+
 }
