@@ -9,7 +9,7 @@ import servis.OsnovnoSredstvoServis;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		OsnovnoSredstvoServis osServis = new OsnovnoSredstvoServis(new DaoOsnovnoSredstvo());
 		osServis.dodajOsnovnoSredstvo(
 				new OsnovnoSredstvo("2020-0001", "Canon VB710", "Canon opticka kamera 50MP", Tip.Kamera, LocalDate.of(2018, 06, 06)));

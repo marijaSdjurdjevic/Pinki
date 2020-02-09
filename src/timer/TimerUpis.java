@@ -8,7 +8,7 @@ import daoImpl.DaoOsnovnoSredstvo;
 
 public class TimerUpis {
 
-	public void timerZaUpis(Object obj) {
+	public static void timerZaUpis(Object obj) {
 		int MINUTES = 2; // The delay in minutes
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
