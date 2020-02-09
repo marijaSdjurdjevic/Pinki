@@ -1,0 +1,4 @@
+1. Na interfejs dao dodati exceptione
+2. Iskoristio saveload od Mandraka. Malo uprostio i mao izmenio logiku kreiranja fajlova
+    Da li da uvedemo optional u readAll?
+3. Dodao sam timer za periodicni upis u fajl. (Ima proveru za svaki tip objekta. Mislim da ne moze prostije...)
