@@ -49,7 +49,7 @@ public class SaveLoad {
 			filename.delete();
 		}
 		filename.createNewFile();
-		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename.getName()))) {
 			for (T object : objects) {
 				out.writeObject(object);
 			}

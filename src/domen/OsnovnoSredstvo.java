@@ -2,10 +2,16 @@ package domen;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Comparison;
+
 public class OsnovnoSredstvo implements Serializable{
+	public static final Comparator<OsnovnoSredstvo> CompareByName = Comparator.comparing(OsnovnoSredstvo::getNaziv);
+	public static final Comparator<OsnovnoSredstvo> CompareByDate = Comparator.comparing(OsnovnoSredstvo::getDatumNabake);
+	
 	private static int broj = 0;
 	private int id;
 	private String invBroj;

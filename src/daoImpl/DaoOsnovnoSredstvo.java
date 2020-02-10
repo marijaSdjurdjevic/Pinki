@@ -9,18 +9,23 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import dao.Dao;
 import domen.OsnovnoSredstvo;
+import domen.Tip;
 import utility.SaveLoad;
 
 public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
 	private List<OsnovnoSredstvo> listaOS = new ArrayList<OsnovnoSredstvo>();
-	private final File os = new File("OsnovnaSredstva");
+	private final File os = new File("OsnovnaSredstva.dat");
 
 	public DaoOsnovnoSredstvo() throws Exception {
 		if (!os.exists())
@@ -44,15 +49,22 @@ public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
 		return listaOS.stream().filter((os) -> os.getInvBroj().equalsIgnoreCase(invBroj)).findFirst();
 	}
 
-	public Optional<OsnovnoSredstvo> getByNaziv(String invBroj) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OsnovnoSredstvo> getByNaziv(String naziv) {
+		return listaOS.stream().filter((s) -> s.getNaziv().equalsIgnoreCase(naziv)).collect(Collectors.toList());
+	}
+	
+	public List<OsnovnoSredstvo> getByTip(String tip) {
+		return listaOS.stream().filter((s) -> s.getTip().toString().equalsIgnoreCase(tip)).collect(Collectors.toList());
+	}
+	
+	public void izlistajTipoveOS() {
+		Arrays.asList(Tip.values()).stream().forEach(System.out::println);
 	}
 
 	@Override
 	public void loadAll() throws Exception {
 		// mozda ovo da uradimo preko optionala?
-		listaOS = SaveLoad.readObjectsFromFile("OsnovnaSredstva");
+		listaOS = SaveLoad.readObjectsFromFile(os.getName());
 
 	}
 
@@ -61,11 +73,11 @@ public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
 		SaveLoad.writeObjectsToFile(os, listaOS);
 
 	}
-
+	//Bolje da je Predicate genericki
 	@Override
-	public Collection<OsnovnoSredstvo> getAllByPredicate(Predicate<OsnovnoSredstvo> predicate) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<OsnovnoSredstvo> getAllByPredicate(Comparator<OsnovnoSredstvo> comparator) {
+		Collections.sort(listaOS, comparator);
+		return listaOS;
 	}
 
 	@Override
@@ -85,9 +97,10 @@ public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
 
 	@Override
 	public void delete(OsnovnoSredstvo t) {
-		if (t != null)
+		//Na cekanju zbog snimanja
+//		if (t != null)
 //			if(getByInvBroj(t.getInvBroj()).isPresent())
-			listaOS.remove(t);
+//			listaOS.remove(t);
 	}
 
 	@Override
