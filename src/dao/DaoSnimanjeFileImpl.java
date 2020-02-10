@@ -2,10 +2,15 @@ package dao;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -43,14 +48,44 @@ public class DaoSnimanjeFileImpl implements DaoSnimanje, Serializable {
 	@Override
 	public void loadAll() {
 		
-		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(file)));
-		//GRESKAAAAAAAAAAAAA
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(file)))){
+			Snimanje temp = (Snimanje) ois.readObject();
+			while(temp != null) {
+				list.add(temp);
+				temp = (Snimanje) ois.readObject();
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	@Override
 	public void saveAll() {
-		// TODO Auto-generated method stub
+		
 
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(file)))){
+			Iterator<Snimanje> it = list.iterator();
+			while(it.hasNext()) {
+				list.add((Snimanje) it.next());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
