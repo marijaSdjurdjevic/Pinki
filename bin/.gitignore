@@ -1,8 +1,9 @@
-/Napomene.txt
-/dao/
-/daoImpl/
-/domen/
-/main/
 /servis/
 /timer/
-/utility/
+/main/
+/domen/
+/dao/
+/daoImpl/
+/exceptions/
+/ui/
+/validatori/

@@ -1,4 +1,4 @@
-package daoImpl;
+package dao.impl;
 
 import java.io.EOFException;
 import java.io.File;
@@ -19,21 +19,26 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import dao.Dao;
+import dao.DaoOsnovnoSredstvo;
 import domen.OsnovnoSredstvo;
 import domen.Tip;
+import exceptions.DataNotPresent;
+import exceptions.ValidationException;
 import utility.SaveLoad;
 
-public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
-	private List<OsnovnoSredstvo> listaOS = new ArrayList<OsnovnoSredstvo>();
+public class DaoOsnovnoSredstvoImplFiles implements DaoOsnovnoSredstvo {
+	private List<OsnovnoSredstvo> listaOS;
 	private final File os = new File("OsnovnaSredstva.dat");
 
-	public DaoOsnovnoSredstvo() throws Exception {
+	public DaoOsnovnoSredstvoImplFiles() throws Exception {
+		listaOS = new ArrayList<OsnovnoSredstvo>();
 		if (!os.exists())
 			os.createNewFile();
 		else {
 			try {
-				loadAll();
+				ucitajPodatke();
 			} catch (Exception e) {
+				System.out.println(e.getMessage());
 				e.printStackTrace();
 				throw e;
 			}
@@ -41,55 +46,62 @@ public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
 	}
 
 	@Override
-	public Optional<OsnovnoSredstvo> getBySifra(int sifra) {
+	public Optional<OsnovnoSredstvo> vratiPoSifri(int sifra) {
 		return listaOS.stream().filter((os) -> Integer.compare(os.getId(), sifra) == 0).findFirst();
 	}
 
-	public Optional<OsnovnoSredstvo> getByInvBroj(String invBroj) {
+	public Optional<OsnovnoSredstvo> vratiPoInventarnomBroju(String invBroj) {
 		return listaOS.stream().filter((os) -> os.getInvBroj().equalsIgnoreCase(invBroj)).findFirst();
 	}
 
-	public List<OsnovnoSredstvo> getByNaziv(String naziv) {
+	public List<OsnovnoSredstvo> vratiPoNazivu(String naziv) {
 		return listaOS.stream().filter((s) -> s.getNaziv().equalsIgnoreCase(naziv)).collect(Collectors.toList());
 	}
 	
-	public List<OsnovnoSredstvo> getByTip(String tip) {
+	public List<OsnovnoSredstvo> vratiPoTipu(String tip) throws DataNotPresent, ValidationException {
+		proveraTipa(tip);
 		return listaOS.stream().filter((s) -> s.getTip().toString().equalsIgnoreCase(tip)).collect(Collectors.toList());
+	}
+
+	public void proveraTipa(String tip) throws ValidationException {
+		Arrays.stream(Tip.values())
+        .filter(e -> e.toString().equalsIgnoreCase(tip))
+        .findFirst()
+        .orElseThrow(() -> new ValidationException("Niste uneli ispravan tip"));
 	}
 	
 	public void izlistajTipoveOS() {
 		Arrays.asList(Tip.values()).stream().forEach(System.out::println);
 	}
 
-	@Override
-	public void loadAll() throws Exception {
+	public void ucitajPodatke() throws Exception {
 		// mozda ovo da uradimo preko optionala?
 		listaOS = SaveLoad.readObjectsFromFile(os.getName());
 
 	}
 
 	@Override
-	public void saveAll() throws IOException {
+	public void upisiPodatke() throws IOException {
 		SaveLoad.writeObjectsToFile(os, listaOS);
 
 	}
 	//Bolje da je Predicate genericki
 	@Override
-	public Collection<OsnovnoSredstvo> getAllByPredicate(Comparator<OsnovnoSredstvo> comparator) {
+	public Collection<OsnovnoSredstvo> vratiPoUslovu(Comparator<OsnovnoSredstvo> comparator) {
 		Collections.sort(listaOS, comparator);
 		return listaOS;
 	}
 
 	@Override
 	public int save(OsnovnoSredstvo t) {
-		if (t != null && !getByInvBroj(t.getInvBroj()).isPresent())
+		if (t != null && !vratiPoInventarnomBroju(t.getInvBroj()).isPresent())
 			listaOS.add(t);
 		return 0;
 	}
 
 	@Override
 	public void update(OsnovnoSredstvo t) {
-		Optional<OsnovnoSredstvo> os = getByInvBroj(t.getInvBroj());
+		Optional<OsnovnoSredstvo> os = vratiPoInventarnomBroju(t.getInvBroj());
 		if (os.isPresent())
 			delete(os.get());
 		save(t);
@@ -104,8 +116,11 @@ public class DaoOsnovnoSredstvo implements Dao<OsnovnoSredstvo> {
 	}
 
 	@Override
-	public void printAll() {
-		listaOS.stream().forEach(System.out::println);
+	public void printAll() throws DataNotPresent {
+		if(listaOS.isEmpty())
+			throw new DataNotPresent("Ne postoji nijedan zapis");
+		else
+			listaOS.stream().forEach(System.out::println);
 	}
 
 	//sta radimo sa ovim?

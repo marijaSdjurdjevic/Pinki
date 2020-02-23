@@ -7,19 +7,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import exceptions.DataNotPresent;
+
 public  interface Dao<T> {
 	 
-    Optional<T> getBySifra(int sifra);
-    List<T> getByNaziv(String naziv);
-    //dodat exceptione
-    void loadAll() throws Exception;
-    void saveAll() throws IOException;
+    public Optional<T> vratiPoSifri(int sifra);
     
-    Collection<T> getAllByPredicate(Comparator<T> predicate);
+    public void ucitajPodatke() throws Exception;
+    public void upisiPodatke() throws IOException;
+    
+    Collection<T> vratiPoUslovu(Comparator<T> predicate);
     int save(T t);
     void update(T t);
     void delete(T t);
-    void printAll();
+    void printAll() throws DataNotPresent;
     T makeCopyOfMe(T t);
    
     

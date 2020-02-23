@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.sun.org.apache.xpath.internal.operations.Equals;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Comparison;
 
 public class OsnovnoSredstvo implements Serializable{
@@ -79,19 +80,44 @@ public class OsnovnoSredstvo implements Serializable{
 		return invBrojevi;
 	}
 
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof OsnovnoSredstvo) {
-			OsnovnoSredstvo os = (OsnovnoSredstvo)obj;
-			return Integer.compare(os.getId(), getId()) == 0 && os.invBroj.equalsIgnoreCase(invBroj);
-		}
-		return false;
+		if(!(obj instanceof OsnovnoSredstvo)) return false;
+		OsnovnoSredstvo os = (OsnovnoSredstvo)obj;
+		return Integer.compare(os.getId(), getId()) == 0 && os.invBroj.equalsIgnoreCase(invBroj);
+		
 	}
 
 	@Override
 	public String toString() {
-		return "OsnovnoSredstvo[" + id + "] [invBroj=" + invBroj + ", naziv=" + naziv + ", \nopis=" + opis + ", \ntip=" + tip
-				+ ", datumNabake=" + datumNabake + ", status=" + status + "]";
+		StringBuilder builder = new StringBuilder();
+			builder.append("OsnovnoSredstvo[");
+			builder.append(id);
+			builder.append("] [invBroj=");
+			builder.append(invBroj);
+			builder.append(", naziv=");
+			builder.append(naziv);
+			builder.append(", \nopis=");
+			builder.append(opis);
+			builder.append(", \ntip=");
+			builder.append(tip);
+			builder.append(", datumNabake=");
+			builder.append(datumNabake);
+			builder.append(", status=");
+			builder.append(status);
+			builder.append("]");
+		return builder.toString();
+		
+//		return "OsnovnoSredstvo[" + id + "] [invBroj=" + invBroj + ", naziv=" + naziv + ", \nopis=" + opis + ", \ntip=" + tip
+//				+ ", datumNabake=" + datumNabake + ", status=" + status + "]";
+		
 	}
 	
 	
